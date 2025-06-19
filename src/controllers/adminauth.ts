@@ -1,1 +1,0 @@
-const nam:string ="shahil"
