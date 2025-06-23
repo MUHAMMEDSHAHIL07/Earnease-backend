@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { userModel } from "../../models/userSchema";
+import { userModel } from "../../models/userSchema.js";
 
 export const userRegister = async (req, res) => {
   try {
@@ -16,3 +16,4 @@ export const userRegister = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
