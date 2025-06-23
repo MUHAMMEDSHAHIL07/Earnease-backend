@@ -8,5 +8,5 @@ router.post("/userregister", userRegister);
 router.post("/employerregister", employerRegister);
 router.post("/adminregister", adminRegister);
 router.post("/login",userLogin)
-router.post("adminlogin",adminLogin)
+router.post("/adminlogin",adminLogin)
 export default router;
