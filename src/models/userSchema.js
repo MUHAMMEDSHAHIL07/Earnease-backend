@@ -13,6 +13,10 @@ const userSchema = new Schema({
       type: String,
       required: true
    },
+   phonenumber:{
+      type:String,
+      required:true
+   },
    location: String,
    availability: String,
    bio: String,

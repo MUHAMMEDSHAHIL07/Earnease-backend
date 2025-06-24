@@ -5,30 +5,30 @@ import { employerModel } from "../../models/employerSchema.js";
 
 export const userRegister = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password ,phonenumber} = req.body;
     const userExist = await userModel.findOne({ email });
     if (userExist) {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    await userModel.create({ name, email, password: hashedPassword, role: "student" });
+    await userModel.create({ name, email, password: hashedPassword,phonenumber, role: "student" });
 
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error"+error.message });
   }
 };
 
 export const employerRegister = async(req,res)=>{
   try{
-    const {companyname,email,password} = req.body
+    const {companyname,email,password,phonenumber} = req.body
     const userExist = await employerModel.findOne({email})
     if(userExist){
       return res.status(400).json({message:"user already exist"})
     }
     const hashedPassword = await bcrypt.hash(password,10)
-    await employerModel.create({companyname,email,password:hashedPassword,role:"employer"})
-    return res.status(200).json({message:"account created succesfully"})
+    await employerModel.create({companyname,email,password:hashedPassword,phonenumber,role:"employer"})
+    return res.status(201).json({message:"account created succesfully"})
   }
   catch(error){
     return res.status(500).json({message:"internal server error"+error.message})
