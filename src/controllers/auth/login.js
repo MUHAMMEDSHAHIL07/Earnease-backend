@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import { userModel } from "../../models/userSchema.js";
 import { employerModel } from "../../models/employerSchema.js";
 import { adminModel } from "../../models/adminSchema.js";
+import EmployerVerification from "../../models/employerVerifiySchema.js";
 dotenv.config()
 
 export const userLogin = async (req, res) => {
@@ -23,6 +24,15 @@ export const userLogin = async (req, res) => {
         if (!passwordmatch) {
             return res.status(401).json({ message: "invalid password" })
         }
+        if(role==="employer" && !user.isVerified){
+          const existingVerification = await EmployerVerification.findOne({employerId:user._id})
+          if (!existingVerification){
+            return res.status(401).json({status:"incomplete",message:"please complete your verification from",employerId:user._id})
+          }  
+          else{
+            return res.status(403).json({status:"pending",message:"your account is under verification"})
+          }
+        }
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" })
         res.cookie("token", token, {
             httpOnly: true,
@@ -32,7 +42,8 @@ export const userLogin = async (req, res) => {
         })
         res.status(200).json({
             message: "login successfully",
-            role: user.role
+            role: user.role,
+            employerId: user._id
         })
     }
     catch (error) {

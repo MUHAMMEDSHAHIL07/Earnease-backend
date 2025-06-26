@@ -7,8 +7,10 @@ import otpGenerator from "otp-generator"
 import { sendEmail } from "../../utils/sendEmail.js";
 
 export const userRegister = async (req, res) => {
+  
    try{
     const {name,email,password,phonenumber,otp} = req.body
+    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`
     if(!otp){
       const existinguser = await userModel.findOne({email})
       if(existinguser) return res.status(400).json({message:"user already exist"})
@@ -34,6 +36,7 @@ export const userRegister = async (req, res) => {
         password:hashedPassword,
         phonenumber,
         role:"student",
+        avatarUrl
       })
       await otpModel.deleteMany({email})
 
@@ -64,16 +67,16 @@ export const employerRegister = async(req,res)=>{
     const validotp = await otpModel.findOne({email,otp})
       if(!validotp) return res.status(400).json({message:"invalid otp"})
         const hashedPassword = await bcrypt.hash(password,10)
-      await userModel.create({
+        const newEmployer =await employerModel.create({
         companyname,
         email,
         password:hashedPassword,
         phonenumber,
-        role:"student",
+        role:"employer",
       })
       await otpModel.deleteMany({email})
 
-      return res.status(201).json({message:"account created succesfully"})
+      return res.status(201).json({message:"account created succesfully",employerId: newEmployer._id})
   }
   catch(error){
     return res.status(500).json({ message: "Internal server error: " + err.message });
