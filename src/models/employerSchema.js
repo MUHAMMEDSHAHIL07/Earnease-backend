@@ -18,6 +18,9 @@ const employerSchema = new Schema({
         type: String,
         default: "employer"
     },
+    avatarUrl:{
+      type:String
+   },
     isVerified: {
         type: Boolean,
         default: false,

@@ -22,6 +22,9 @@ const userSchema = new Schema({
    bio: String,
    about:String,
    experience: String,
+   avatarUrl:{
+      type:String
+   },
    role: {
       type: String,
       default: "student"
