@@ -24,14 +24,14 @@ export const userLogin = async (req, res) => {
         if (!passwordmatch) {
             return res.status(401).json({ message: "invalid password" })
         }
-        if(role==="employer" && !user.isVerified){
-          const existingVerification = await EmployerVerification.findOne({employerId:user._id})
-          if (!existingVerification){
-            return res.status(401).json({status:"incomplete",message:"please complete your verification from",employerId:user._id})
-          }  
-          else{
-            return res.status(403).json({status:"pending",message:"your account is under verification"})
-          }
+        if (role === "employer" && !user.isVerified) {
+            const existingVerification = await EmployerVerification.findOne({ employerId: user._id })
+            if (!existingVerification) {
+                return res.status(401).json({ status: "incomplete", message: "please complete your verification from", employerId: user._id })
+            }
+            else {
+                return res.status(403).json({ status: "pending", message: "your account is under verification" })
+            }
         }
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" })
         res.cookie("token", token, {
@@ -43,7 +43,10 @@ export const userLogin = async (req, res) => {
         res.status(200).json({
             message: "login successfully",
             role: user.role,
-            employerId: user._id
+            employerId: user._id,
+            user: {
+                avatarUrl: user.avatarUrl,
+            }
         })
     }
     catch (error) {
@@ -65,9 +68,9 @@ export const adminLogin = async (req, res) => {
             sameSite: 'None',
             maxAge: 60 * 60 * 1000
         })
-        res.status(200).json({message:"login succesfully"})
+        res.status(200).json({ message: "login succesfully" })
     }
-    catch(error){
-        return res.status(500).json({message:"internal server error"+error.message})
+    catch (error) {
+        return res.status(500).json({ message: "internal server error" + error.message })
     }
 }

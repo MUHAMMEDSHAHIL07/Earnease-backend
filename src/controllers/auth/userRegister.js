@@ -40,7 +40,7 @@ export const userRegister = async (req, res) => {
       })
       await otpModel.deleteMany({email})
 
-      return res.status(201).json({message:"user is created succesfully"})
+      return res.status(201).json({message:"user is created succesfully",})
    }
    catch(error){
     return res.status(500).json({ message: "Internal server error: " + err.message });
