@@ -1,6 +1,7 @@
 import {employerModel} from "../../models/employerSchema.js"
 import EmployerVerification from "../../models/employerVerifiySchema.js"
 export const verifyEmployer = async (req, res) => {
+  
   try {
     const {employerId,companyType,industry,address,contactPerson,contactEmail,} = req.body;
 
