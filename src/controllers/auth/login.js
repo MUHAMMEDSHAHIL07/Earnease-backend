@@ -59,7 +59,7 @@ export const adminLogin = async (req, res) => {
         const { email, password } = req.body
         const admincheck = await adminModel.findOne({ email: email, role: "admin" })
         if (!admincheck) return res.status(400).json({ message: "not a admin" })
-        const passwordmatch = bcrypt.compare(password, admincheck.password)
+        const passwordmatch = await bcrypt.compare(password, admincheck.password)
         if (!passwordmatch) return res.status(401).json({ message: "invalid password" })
         const token = jwt.sign({ id: admincheck._id, role: "admin" }, process.env.JWT_SECRET, { expiresIn: "7d" })
         res.cookie("token", token, {

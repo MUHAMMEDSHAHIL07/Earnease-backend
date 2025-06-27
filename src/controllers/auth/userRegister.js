@@ -50,7 +50,7 @@ export const userRegister = async (req, res) => {
 export const employerRegister = async(req,res)=>{
   try{
     const{companyname,email,password,phonenumber,otp} = req.body
-    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`
+    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(companyname)}&background=random&color=fff`
     if(!otp){
       const existinguser = await employerModel.findOne({email})
       if(existinguser) return res.status(404).json({message:"user already exist"})

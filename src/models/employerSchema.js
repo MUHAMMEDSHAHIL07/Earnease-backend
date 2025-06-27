@@ -24,7 +24,16 @@ const employerSchema = new Schema({
     isVerified: {
         type: Boolean,
         default: false,
-    }
+    },
+    resetToken:{
+      type:String,
+      default:null
+    } ,
+    resetTokenExpiry:{
+      type:Date,
+      default:null
+    } ,
+
 
 })
 export const employerModel = mongoose.model("employer", employerSchema)
