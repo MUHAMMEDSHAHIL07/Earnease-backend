@@ -23,6 +23,14 @@ const userSchema = new Schema({
    avatarUrl:{
       type:String
    },
+   resetToken:{
+      type:String,
+      default:null
+    } ,
+    resetTokenExpiry:{
+      type:Date,
+      default:null
+    },
    role: {
       type: String,
       default: "student"
