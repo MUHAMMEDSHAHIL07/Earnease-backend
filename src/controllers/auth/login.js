@@ -19,6 +19,9 @@ export const userLogin = async (req, res) => {
         if(!user){
             return res.status(400).json({message:"user not found"})
         }
+        if(!user.password){
+            return res.status(404).json({message:"this account is created using google.Please login with google"})
+        }
         const passwordmatch = await bcrypt.compare(password, user.password)
         if (!passwordmatch) {
             return res.status(401).json({ message: "invalid password" })

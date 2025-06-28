@@ -44,7 +44,7 @@ export const GoogleLogin = async (req, res) => {
 
     if ((role === "student"  && existingEmployer) ||
         (role === "employer" && existingStudent)) {
-      return res.status(400).json({ message: "This email is already used with another role" });
+      return res.status(400).json({ message: "This email is already used with another email" });
     }
 
     let user = role === "student" ? existingStudent : existingEmployer;
@@ -63,7 +63,6 @@ export const GoogleLogin = async (req, res) => {
       }
       isNew = true;
     }
-
 
     const token = jwt.sign({ id: user._id, role }, process.env.JWT_SECRET, {
       expiresIn: "7d",

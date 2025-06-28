@@ -12,25 +12,28 @@ const userSchema = new Schema({
    password: {
       type: String,
    },
-   phonenumber:{
-      type:String,
+   phonenumber: {
+      type: String,
    },
-   location: String,
+   location:
+   {
+      type: String
+   },
    availability: String,
    bio: String,
-   about:String,
+   about: String,
    experience: String,
-   avatarUrl:{
-      type:String
+   avatarUrl: {
+      type: String
    },
-   resetToken:{
-      type:String,
-      default:null
-    } ,
-    resetTokenExpiry:{
-      type:Date,
-      default:null
-    },
+   resetToken: {
+      type: String,
+      default: null
+   },
+   resetTokenExpiry: {
+      type: Date,
+      default: null
+   },
    role: {
       type: String,
       default: "student"
