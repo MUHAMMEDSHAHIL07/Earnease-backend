@@ -11,11 +11,9 @@ const userSchema = new Schema({
    },
    password: {
       type: String,
-      required: true
    },
    phonenumber:{
       type:String,
-      required:true
    },
    location: String,
    availability: String,

@@ -9,16 +9,15 @@ dotenv.config()
 
 export const userLogin = async (req, res) => {
     try {
-        const { role, email, password } = req.body
-        let user;
-        if (role === "student") {
-            user = await userModel.findOne({ email })
+        const { email, password } = req.body
+        let user = await userModel.findOne({email})
+        let role = "student"
+        if(!user){
+            user = await employerModel.findOne({email})
+            role ="employer"
         }
-        else if (role == "employer") {
-            user = await employerModel.findOne({ email })
-        }
-        if (!user) {
-            return res.status(400).json({ message: "user not found" })
+        if(!user){
+            return res.status(400).json({message:"user not found"})
         }
         const passwordmatch = await bcrypt.compare(password, user.password)
         if (!passwordmatch) {
@@ -27,7 +26,7 @@ export const userLogin = async (req, res) => {
         if (role === "employer" && !user.isVerified) {
             const existingVerification = await EmployerVerification.findOne({ employerId: user._id })
             if (!existingVerification) {
-                return res.status(401).json({ status: "incomplete", message: "please complete your verification from", employerId: user._id })
+                return res.status(401).json({ status: "incomplete", message: "please complete your verification from", employerId: user._id,role: "employer"})
             }
             else {
                 return res.status(403).json({ status: "pending", message: "your account is under verification" })
@@ -42,7 +41,7 @@ export const userLogin = async (req, res) => {
         })
         res.status(200).json({
             message: "login successfully",
-            role: user.role,
+            role,
             employerId: user._id,
             user: {
                 avatarUrl: user.avatarUrl,
@@ -50,7 +49,7 @@ export const userLogin = async (req, res) => {
         })
     }
     catch (error) {
-        return res.status(500).json({ message: "internal server error" })
+        return res.status(500).json({ message:error.message })
     }
 }
 

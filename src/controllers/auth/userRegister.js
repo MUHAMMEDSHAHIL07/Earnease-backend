@@ -5,6 +5,7 @@ import { employerModel } from "../../models/employerSchema.js";
 import { otpModel } from "../../models/otpModel.js";
 import otpGenerator from "otp-generator"
 import { sendEmail } from "../../utils/sendEmail.js";
+import { log } from "console";
 
 export const userRegister = async (req, res) => {
   
@@ -81,7 +82,7 @@ export const employerRegister = async(req,res)=>{
       return res.status(201).json({message:"account created succesfully",employerId: newEmployer._id})
   }
   catch(error){
-    return res.status(500).json({ message: "Internal server error: " + err.message });
+    return res.status(500).json({ message: "Internal server error: " + error.message });
    }
 }
 
