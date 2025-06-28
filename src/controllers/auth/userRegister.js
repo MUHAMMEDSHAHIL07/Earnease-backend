@@ -5,7 +5,6 @@ import { employerModel } from "../../models/employerSchema.js";
 import { otpModel } from "../../models/otpModel.js";
 import otpGenerator from "otp-generator"
 import { sendEmail } from "../../utils/sendEmail.js";
-import { log } from "console";
 
 export const userRegister = async (req, res) => {
   
