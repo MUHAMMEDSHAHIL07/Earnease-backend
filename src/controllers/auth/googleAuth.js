@@ -22,28 +22,37 @@ export const GoogleLogin = async (req, res) => {
     const { email, name, sub: googleId } = payload;
 
 
-    const existingStudent  = await userModel.findOne({ email });
+    const existingStudent = await userModel.findOne({ email });
     const existingEmployer = await employerModel.findOne({ email });
 
- 
+
     if (!role) {
       if (existingStudent) {
-        return res.json({ exists: true, role: "student" });
+        return res.json({ exists: true, role: "student", 
+          user: {
+        name: existingStudent.name,
+        email: existingStudent.email,
+        avatarUrl: payload.picture
+      }});
       }
       if (existingEmployer) {
         return res.json({
-          exists:   true,
-          role:     "employer",
+          exists: true,
+          role: "employer",
           verified: existingEmployer.verified,
           employerId: existingEmployer._id,
-        });
+          user: {
+        name: existingEmployer.companyname,
+        email: existingEmployer.email,
+        avatarUrl: payload.picture
+        }});
       }
 
       return res.json({ exists: false });
     }
 
-    if ((role === "student"  && existingEmployer) ||
-        (role === "employer" && existingStudent)) {
+    if ((role === "student" && existingEmployer) ||
+      (role === "employer" && existingStudent)) {
       return res.status(400).json({ message: "This email is already used with another email" });
     }
 
@@ -67,7 +76,7 @@ export const GoogleLogin = async (req, res) => {
     const token = jwt.sign({ id: user._id, role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.cookie("token", token, { httpOnly: true, sameSite: "lax" });
+    res.cookie("token", token, { httpOnly: true, sameSite: false });
 
 
     res.json({
@@ -75,7 +84,12 @@ export const GoogleLogin = async (req, res) => {
       role,
       isNew,
       employerId: role === "employer" ? user._id : undefined,
-      verified:   role === "employer" ? user.verified : undefined,
+      verified: role === "employer" ? user.verified : undefined,
+      user: {
+        name,
+        email,
+        avatarUrl: payload.picture
+      },
     });
   } catch (error) {
     console.error("GoogleLogin error:", error);
