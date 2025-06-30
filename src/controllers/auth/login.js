@@ -47,6 +47,7 @@ export const userLogin = async (req, res) => {
             role,
             employerId: user._id,
             user: {
+            name: user.name || user.companyname,
             avatarUrl: user.avatarUrl,
             }
         })

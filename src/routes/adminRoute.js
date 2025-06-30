@@ -4,8 +4,8 @@ import { approveEmployer, getPendingVerification, getSingleVerification, rejectE
 const router = express.Router()
 
 router.get("/employers/pending",getPendingVerification)
-router.patch("/approveEmployer/:id",approveEmployer)
 router.get("/employers/pending/:id", getSingleVerification);
-router.patch("/rejectEmployer/:id",rejectEmployer)
+router.patch("/employers/approveEmployer/:id",approveEmployer)
+router.patch("/employers/rejectEmployer/:id",rejectEmployer)
 
 export default router

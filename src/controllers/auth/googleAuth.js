@@ -2,6 +2,7 @@ import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
 import { userModel } from "../../models/userSchema.js";
 import { employerModel } from "../../models/employerSchema.js";
+import EmployerVerification from "../../models/employerVerifiySchema.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -36,10 +37,12 @@ export const GoogleLogin = async (req, res) => {
       }});
       }
       if (existingEmployer) {
+        const verification = await EmployerVerification.findOne({ employerId: existingEmployer._id });
         return res.json({
           exists: true,
           role: "employer",
-          verified: existingEmployer.verified,
+          verified: existingEmployer.isVerified,
+          hasSubmittedVerification: !!verification,
           employerId: existingEmployer._id,
           user: {
         name: existingEmployer.companyname,

@@ -4,8 +4,7 @@ import { sendEmail } from '../../utils/sendEmail.js';
 
 export const sendOtp = async (req, res) => {
   const { email } = req.body;
-
-  // clear any old OTP for same mail
+  
   await otpModel.deleteMany({ email });
 
   const otp = otpGenerator.generate(6, {
