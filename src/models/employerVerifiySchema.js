@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const employerVerificationSchema = new mongoose.Schema({
   employerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Employer",
+    ref: "employer",
     required: true,
     unique: true,
   },

@@ -31,8 +31,6 @@ const employerSchema = new Schema({
     resetTokenExpiry:{
       type:Date,
       default:null
-    } ,
-
-
-})
+    } 
+},{ timestamps:true })
 export const employerModel = mongoose.model("employer", employerSchema)
