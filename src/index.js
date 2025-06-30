@@ -2,6 +2,7 @@ import express from "express";
 import connectDB from "./config/db.js"
 import authRoute from "./routes/authRoutes.js"; 
 import studentRoute from "./routes/studentRoute.js"
+import adminRouter from "./routes/adminRoute.js"
 import employerRoute from "./routes/employerRoute.js"
 import cookieParser from "cookie-parser";
 import cors from "cors"
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute); 
 app.use("/student",studentRoute)
 app.use("/api/employer",employerRoute)
+app.use("/admin",adminRouter)
 app.use(apiLimiter);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

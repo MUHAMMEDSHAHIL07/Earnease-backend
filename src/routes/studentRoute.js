@@ -6,5 +6,4 @@ const router = express.Router()
 
 router.patch("/profile",jwtMiddleware,checkRole(["student"]),updateStudentProfile)
 
-
 export default router
