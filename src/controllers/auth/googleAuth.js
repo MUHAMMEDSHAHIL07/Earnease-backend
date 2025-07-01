@@ -14,7 +14,7 @@ export const GoogleLogin = async (req, res) => {
   }
 
   try {
-
+    
     const ticket = await client.verifyIdToken({
       idToken: credential,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -79,7 +79,12 @@ export const GoogleLogin = async (req, res) => {
     const token = jwt.sign({ id: user._id, role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.cookie("token", token, { httpOnly: true, sameSite: false });
+     res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+            maxAge: 60 * 60 * 1000
+        })
 
 
     res.json({

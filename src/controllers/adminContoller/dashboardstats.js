@@ -1,6 +1,6 @@
-import { employerModel } from "../../models/employerSchema"
-import EmployerVerification from "../../models/employerVerifiySchema"
-import { userModel } from "../../models/userSchema"
+import { employerModel } from "../../models/employerSchema.js"
+import EmployerVerification from "../../models/employerVerifiySchema.js"
+import { userModel } from "../../models/userSchema.js"
 
 export const dashboardStat = async(req,res)=>{
     try{
