@@ -31,6 +31,7 @@ const employerSchema = new Schema({
     resetTokenExpiry:{
       type:Date,
       default:null
-    } 
+    },
+     isBlocked: { type: Boolean, default: false } 
 },{ timestamps:true })
 export const employerModel = mongoose.model("employer", employerSchema)

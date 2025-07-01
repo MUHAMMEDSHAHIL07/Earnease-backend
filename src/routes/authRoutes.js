@@ -6,6 +6,8 @@ import { forgetPassword } from "../controllers/auth/forgetPassword.js";
 import { resetPassword } from "../controllers/auth/resetPassword.js";
 import { loginLimiter } from "../middleware/rateLimit.js";
 import { GoogleLogin } from "../controllers/auth/googleAuth.js";
+import { checkBlocked } from "../middleware/checkBlock.js";
+import { jwtMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 

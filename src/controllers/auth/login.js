@@ -10,17 +10,20 @@ dotenv.config()
 export const userLogin = async (req, res) => {
     try {
         const { email, password } = req.body
-        let user = await userModel.findOne({email})
+        let user = await userModel.findOne({ email })
         let role = "student"
-        if(!user){
-            user = await employerModel.findOne({email})
-            role ="employer"
+        if (!user) {
+            user = await employerModel.findOne({ email })
+            role = "employer"
         }
-        if(!user){
-            return res.status(400).json({message:"user not found"})
+        if (!user) {
+            return res.status(400).json({ message: "user not found" })
         }
-        if(!user.password){
-            return res.status(404).json({message:"this account is created using google.Please login with google"})
+        if (user.isBlocked) {
+            return res.status(403).json({ message: "Your account has been blocked by admin." });
+        }
+        if (!user.password) {
+            return res.status(404).json({ message: "this account is created using google.Please login with google" })
         }
         const passwordmatch = await bcrypt.compare(password, user.password)
         if (!passwordmatch) {
@@ -29,7 +32,7 @@ export const userLogin = async (req, res) => {
         if (role === "employer" && !user.isVerified) {
             const existingVerification = await EmployerVerification.findOne({ employerId: user._id })
             if (!existingVerification) {
-                return res.status(401).json({ status: "incomplete", message: "please complete your verification from", employerId: user._id,role: "employer"})
+                return res.status(401).json({ status: "incomplete", message: "please complete your verification from", employerId: user._id, role: "employer" })
             }
             else {
                 return res.status(403).json({ status: "pending", message: "your account is under verification" })
@@ -47,13 +50,13 @@ export const userLogin = async (req, res) => {
             role,
             employerId: user._id,
             user: {
-            name: user.name || user.companyname,
-            avatarUrl: user.avatarUrl,
+                name: user.name || user.companyname,
+                avatarUrl: user.avatarUrl,
             }
         })
     }
     catch (error) {
-        return res.status(500).json({ message:error.message })
+        return res.status(500).json({ message: error.message })
     }
 }
 

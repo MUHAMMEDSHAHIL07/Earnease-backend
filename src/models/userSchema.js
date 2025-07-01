@@ -38,6 +38,6 @@ const userSchema = new Schema({
       type: String,
       default: "student"
    },
-   isBlocked: { type: Boolean, default: false } 
-},{ timestamps: true })
+   isBlocked: { type: Boolean, default: false }
+}, { timestamps: true })
 export const userModel = mongoose.model("users", userSchema)
