@@ -14,9 +14,19 @@ export const jobPost = async(req,res)=>{
             Gender
         })
         await newJob.save()
-        res.status(200).json({message:"job created",Job:newJob})
+        res.status(201).json({message:"job created",Job:newJob})
     }
     catch(error){
         return res.status(500).json({message:error.message})
+    }
+}
+
+export const getAllJob = async(req,res)=>{
+    try{
+        const getJob = await jobModel.find({employer:req.user.id})
+        return res.status(200).json({getJob})
+    }
+    catch(error){
+        return res.status(500).json(error.message)
     }
 }
