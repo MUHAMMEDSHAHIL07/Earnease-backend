@@ -30,3 +30,35 @@ export const getAllJob = async(req,res)=>{
         return res.status(500).json(error.message)
     }
 }
+export const getJobById = async(req,res)=>{
+    try{
+        const getJob = await jobModel.findOne({_id:req.params.id,employer:req.user.id})
+        if(!getJob) return res.status(404).json({message:"job not found"})
+            return res.status(200).json({ getJob: getJob }); 
+    }
+    catch(error){
+        return res.status(500).json({message:error.message})
+    }
+}
+
+export const editJob = async(req,res)=>{
+    try{
+        const editJob = await jobModel.findOneAndUpdate({_id:req.params.id,employer:req.user.id},{$set:req.body})
+        if(!editJob) return res.status(404).json("job not found")
+            return res.status(200).json({message:editJob})
+    }
+    catch(error){
+        return res.status(500).json({message:error.message})
+    }
+}
+
+export const deleteJob = async(req,res)=>{
+    try{
+        const jobDelete = await jobModel.findOneAndDelete({_id:req.params.id,employer:req.user.id})
+        if(!jobDelete) return res.status(404).json({message:"no job found"})
+            res.status(200).json({message:"job deleted successfully"})
+    }
+    catch(error){
+        return res.status(500).json({message:error.message})
+    }
+}
