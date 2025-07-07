@@ -5,6 +5,7 @@ import { deleteJob, editJob, getAllJob, getJobById, jobPost } from "../controlle
 import { jwtMiddleware } from "../middleware/authMiddleware.js";
 import { getEmployerApplication } from "../controllers/employerController/getEmployerAppplication.js";
 import { editProfile } from "../controllers/employerController/editProfile.js";
+import { getProfileEmployer } from "../controllers/employerController/getProfile.js";
 
 const router = express.Router()
 
@@ -16,4 +17,5 @@ router.get("/getJob/:id",jwtMiddleware,getJobById)
 router.patch("/editjob/:id",jwtMiddleware,editJob)
 router.get("/getApplication",jwtMiddleware,getEmployerApplication)
 router.patch("/editprofile",jwtMiddleware,editProfile)
+router.get("/getprofile",jwtMiddleware,getProfileEmployer)
 export default router
