@@ -37,6 +37,16 @@ const employerVerificationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  websiteUrl:{
+    type:String,
+  },
+  aboutCompany:{
+    type:String,
+    required:true
+  },
+  foundedYear:{
+    type:Number,
+  },
   status: {
     type: String,
     enum: ["pending", "approved", "rejected"],

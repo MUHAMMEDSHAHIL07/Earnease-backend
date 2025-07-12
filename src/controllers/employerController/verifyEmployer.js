@@ -2,8 +2,10 @@ import {employerModel} from "../../models/employerSchema.js"
 import EmployerVerification from "../../models/employerVerifiySchema.js"
 export const verifyEmployer = async (req, res) => {
   
+    console.log("body:", req.body);
+  console.log("file:", req.file?.path);
   try {
-    const {employerId,companyType,industry,address,contactPerson,contactEmail,} = req.body;
+    const {employerId,companyType,industry,address,contactPerson,contactEmail,websiteUrl,aboutCompany,foundedYear} = req.body;
 
     if (
       !employerId ||
@@ -11,7 +13,10 @@ export const verifyEmployer = async (req, res) => {
       !industry ||
       !address ||
       !contactPerson ||
-      !contactEmail
+      !contactEmail ||
+      websiteUrl ||
+      !aboutCompany ||
+      foundedYear
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -33,7 +38,10 @@ export const verifyEmployer = async (req, res) => {
       address,
       contactPerson,
       contactEmail,
-      licenseUrl: req.file.path, 
+      licenseUrl: req.file.path,
+      websiteUrl,
+      aboutCompany,
+      foundedYear 
     });
 
     employer.isVerified = false;

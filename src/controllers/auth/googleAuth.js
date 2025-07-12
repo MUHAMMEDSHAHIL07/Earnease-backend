@@ -73,7 +73,6 @@ export const GoogleLogin = async (req, res) => {
       sameSite: "None",     
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    console.log("Cookie set!");
 
 
     return res.json({
