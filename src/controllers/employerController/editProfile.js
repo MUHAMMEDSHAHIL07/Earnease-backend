@@ -4,7 +4,7 @@ import EmployerVerification from "../../models/employerVerifiySchema.js";
 export const editProfile = async(req,res)=>{
     try{
         const employerid = req.user.id
-        const {email,avatarUrl,companyname,about,companyType,licenseUrl,location,contactNumber,industry,address} = req.body;
+        const {email,avatarUrl,companyname,about,companyType,licenseUrl,location,contactNumber,industry,address,websiteUrl} = req.body;
 
         await employerModel.findByIdAndUpdate(employerid,{
             companyname,
@@ -13,7 +13,7 @@ export const editProfile = async(req,res)=>{
         })
 
         await EmployerVerification.findOneAndUpdate({employerId: employerid},{
-           companyType,about,licenseUrl,location,contactNumber,industry,address
+           companyType,about,licenseUrl,location,contactNumber,industry,address,websiteUrl
         })
         res.status(200).json({message:"profile updated"})
     }

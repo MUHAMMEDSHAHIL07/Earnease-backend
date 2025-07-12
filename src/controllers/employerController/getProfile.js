@@ -4,7 +4,7 @@ import EmployerVerification from "../../models/employerVerifiySchema.js"
 export const getProfileEmployer = async(req,res)=>{
     try{
         const employerId = req.user.id
-        const employer = await employerModel.findById(employerId).select("email companyname ")
+        const employer = await employerModel.findById(employerId).select("email companyname phonenumber ")
         const verification = await EmployerVerification.findOne({employerId})
 
         if(!employer){
